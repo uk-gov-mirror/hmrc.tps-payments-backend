@@ -35,7 +35,10 @@ class HeadOfDutyIndicatorsSpec extends UnitSpec {
       "V" -> HeadOfDutyIndicators.V,
       "X" -> HeadOfDutyIndicators.X,
       "K" -> HeadOfDutyIndicators.K,
-      "C" -> HeadOfDutyIndicators.C
+      "C" -> HeadOfDutyIndicators.C,
+      "D" -> HeadOfDutyIndicators.D,
+      "E" -> HeadOfDutyIndicators.E,
+      "F" -> HeadOfDutyIndicators.F
     )
 
     headOfDutyIndicators.foreach { tt =>

@@ -1,4 +1,3 @@
-
 val appName = "tps-payments-backend"
 
 val scalaV = "3.3.7"
@@ -11,21 +10,23 @@ lazy val microservice = Project(appName, file("."))
   .settings(commonSettings *)
   .disablePlugins(JUnitXmlReportPlugin)
   .settings(
-    majorVersion                     := majorVer,
-    scalaVersion                     := scalaV,
-    libraryDependencies              ++= AppDependencies.microserviceDependencies,
-    routesGenerator                  :=  InjectedRoutesGenerator
+    majorVersion    := majorVer,
+    scalaVersion    := scalaV,
+    libraryDependencies ++= AppDependencies.microserviceDependencies,
+    routesGenerator := InjectedRoutesGenerator
   )
   .settings(WartRemoverSettings.wartRemoverSettingsPlay)
   .dependsOn(corJourney, corJourneyTestData)
   .aggregate(corJourney, corJourneyTestData)
   .settings(PlayKeys.playDefaultPort := 9125)
+  .settings(commands ++= SbtCommands.commands)
   .settings(
     routesImport ++= Seq(
       "tps.model._",
       "tps.journey.model._",
       "tps.utils._"
-    ))
+    )
+  )
   .settings(
     commands += Command.command("runTestOnly") { state =>
       state.globalLogging.full.info("running play using 'testOnlyDoNotUseInAppConf' routes...")
@@ -36,7 +37,6 @@ lazy val microservice = Project(appName, file("."))
     }
   )
 
-
 lazy val corJourney = Project(appName + "-cor-journey", file("cor-journey"))
   .settings(commonSettings *)
   .settings(
@@ -45,13 +45,12 @@ lazy val corJourney = Project(appName + "-cor-journey", file("cor-journey"))
     libraryDependencies ++= List(
       "uk.gov.hmrc"       %% "bootstrap-common-play-30" % AppDependencies.bootstrapVersion % Provided,
       "com.beachape"      %% "enumeratum-play"          % AppDependencies.enumeratumPlayVersion,
-      "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-30"       % AppDependencies.hmrcMongoVersion //for java Instant Json Formats
+      "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-30"       % AppDependencies.hmrcMongoVersion // for java Instant Json Formats
     )
   )
 
-/**
- * Collection Of Routines - test data
- */
+/** Collection Of Routines - test data
+  */
 lazy val corJourneyTestData = Project(appName + "-cor-journey-test-data", file("cor-journey-test-data"))
   .settings(commonSettings *)
   .settings(
@@ -59,20 +58,20 @@ lazy val corJourneyTestData = Project(appName + "-cor-journey-test-data", file("
     majorVersion := majorVer,
     libraryDependencies ++= List(
       "uk.gov.hmrc"       %% "bootstrap-common-play-30" % AppDependencies.bootstrapVersion % Provided,
-      "org.playframework" %% "play"                     % play.core.PlayVersion.current % Provided,
-      "org.playframework" %% "play-test"                % play.core.PlayVersion.current % Provided
+      "org.playframework" %% "play"                     % play.core.PlayVersion.current    % Provided,
+      "org.playframework" %% "play-test"                % play.core.PlayVersion.current    % Provided
     )
   )
   .dependsOn(corJourney)
   .aggregate(corJourney)
 
 lazy val commonSettings: Seq[Def.SettingsDefinition] = Seq(
-  majorVersion := majorVer,
-  Compile / doc / scalacOptions := Seq(), //this will allow to have warnings in `doc` task
-  Test / doc / scalacOptions := Seq(), //this will allow to have warnings in `doc` task
+  majorVersion                  := majorVer,
+  Compile / doc / scalacOptions := Seq(), // this will allow to have warnings in `doc` task
+  Test / doc / scalacOptions    := Seq(), // this will allow to have warnings in `doc` task
   Compile / scalacOptions -= "utf8",
   scalacOptions ++= scalaCompilerOptions,
-  scalafmtOnCompile := true,
+  scalafmtOnCompile             := true,
   scalacOptions ++= {
     if (StrictBuilding.strictBuilding.value) strictScalaCompilerOptions else Nil
   }
@@ -101,5 +100,6 @@ lazy val strictScalaCompilerOptions: Seq[String] = Seq(
   "-unchecked"
 )
 
-lazy val strictBuilding: SettingKey[Boolean] = StrictBuilding.strictBuilding //defining here so it can be set before running sbt like `sbt 'set Global / strictBuilding := true' ...`
+lazy val strictBuilding: SettingKey[Boolean] =
+  StrictBuilding.strictBuilding // defining here so it can be set before running sbt like `sbt 'set Global / strictBuilding := true' ...`
 StrictBuilding.strictBuildingSetting

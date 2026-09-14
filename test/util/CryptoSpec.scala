@@ -39,8 +39,8 @@ class CryptoSpec extends ItSpec:
     e should have message "Unable to decrypt value"
   }
 
-  /** This test was added to ensure our crypto implementation is consistent with the old way (i.e. AES GCM). We had an
-    * issue where the encryption type used was different and errors arose in the DeniedRefs service layer.
+  /** This test was added to ensure our crypto implementation is consistent with the old way (i.e. AES GCM). We had an issue where the encryption type used was
+    * different and errors arose in the DeniedRefs service layer.
     */
   "crypto impl old vs new" in {
     val oldKey = "MmJhcmNsYXlzc2Z0cGRldg=="
@@ -71,8 +71,8 @@ class CryptoSpec extends ItSpec:
 
 class CryptoWithDifferentKeysSpec extends ItSpec:
 
-  /** overwrite the crypto.key value with new one put the old crypto.key field in previous keys note: the 'old' i.e.
-    * previousKey is used to encrypt test@email.com to obtain an encrypted value to insert into mongo.
+  /** overwrite the crypto.key value with new one put the old crypto.key field in previous keys note: the 'old' i.e. previousKey is used to encrypt
+    * test@email.com to obtain an encrypted value to insert into mongo.
     */
   override lazy val configOverrides: Map[String, Any] = Map(
     "crypto.key"            -> "bWFkZXVwMTIzNDVhYmNkZQ==",

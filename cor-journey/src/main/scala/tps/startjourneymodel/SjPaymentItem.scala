@@ -32,5 +32,4 @@ final case class SjPaymentItem(
 )
 
 object SjPaymentItem:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[SjPaymentItem] = Json.format[SjPaymentItem]

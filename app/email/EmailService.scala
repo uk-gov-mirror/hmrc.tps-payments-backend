@@ -30,20 +30,18 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext
 
 @Singleton
-class EmailService @Inject() (emailConnector: EmailConnector)(using ec: ExecutionContext):
+class EmailService @Inject() (emailConnector: EmailConnector)(using ec: ExecutionContext) {
 
-  /** This function sends email: if all notifications has been received (one for each PaymentItem) and if the tax type
-    * is not PNGR nor MIB and if the email address has been provided and if at least one payment has succeeded (failed
-    * payments aren't aggregated into the email)
+  /** This function sends email: if all notifications has been received (one for each PaymentItem) and if the tax type is not PNGR nor MIB and if the email
+    * address has been provided and if at least one payment has succeeded (failed payments aren't aggregated into the email)
     *
-    * (!) Since the each PaymentItem can have one email address and only one aggregate email is sent the first found
-    * email from the list of PaymentItems is taken (!!) The referenceNumber being part of the emails (randomly generated
-    * number without two last characters) from first paymentItem found on the list is used as a reference for the client
-    * presented in the email)
+    * (!) Since the each PaymentItem can have one email address and only one aggregate email is sent the first found email from the list of PaymentItems is
+    * taken (!!) The referenceNumber being part of the emails (randomly generated number without two last characters) from first paymentItem found on the list
+    * is used as a reference for the client presented in the email)
     *
     * (this function had been developed before this scaladoc)
     */
-  def maybeSendEmail(journey: Journey)(using hc: HeaderCarrier): Unit =
+  def maybeSendEmail(journey: Journey)(using hc: HeaderCarrier): Unit = {
     val paymentItems: List[PaymentItem] = journey.payments
     if weShouldSendEmail(paymentItems) then
       val emailAddress: Email                                = paymentItems
@@ -53,12 +51,12 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
       val listOfSuccessfulTpsPaymentItems: List[PaymentItem] =
         paymentItems.filter(
           _.pcipalData
-            .fold(throw new RuntimeException("maybeSendEmail error: pcipal data should be present but isn't"))(
-              nextPaymentItemPciPalData => nextPaymentItemPciPalData.Status == StatusTypes.validated
+            .fold(throw new RuntimeException("maybeSendEmail error: pcipal data should be present but isn't"))(nextPaymentItemPciPalData =>
+              nextPaymentItemPciPalData.Status == StatusTypes.validated
             )
         )
 
-      listOfSuccessfulTpsPaymentItems.headOption match
+      listOfSuccessfulTpsPaymentItems.headOption match {
         case Some(
               PaymentItem(
                 _,
@@ -86,7 +84,9 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
             receiptInWelsh = receiptInWelsh
           )
         case _ => ()
+      }
     else ()
+  }
 
   @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
   private def sendEmail(
@@ -96,12 +96,13 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
     cardType:             String,
     cardNumber:           String,
     receiptInWelsh:       Boolean
-  )(using hc: HeaderCarrier): Unit =
+  )(using hc: HeaderCarrier): Unit = {
 
     val totalCommissionPaid: BigDecimal = payments
       .map(nextTpsPaymentItem => nextTpsPaymentItem.pcipalData.fold(BigDecimal(0))(pcipalData => pcipalData.Commission))
       .sum
-    val totalAmountPaid: BigDecimal     = payments.map(nextTpsPaymentItem => nextTpsPaymentItem.amount).sum
+
+    val totalAmountPaid: BigDecimal = payments.map(nextTpsPaymentItem => nextTpsPaymentItem.amount).sum
 
     val emailSendRequest: EmailSendRequest = EmailSendRequest(
       to = Seq(emailAddress),
@@ -120,6 +121,7 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
       .recover { case e =>
         logger.error("Failed to send email, investigate", e)
       }
+  }
 
   private def weShouldSendEmail(tpsPaymentItems: List[PaymentItem]): Boolean =
     isNotMibOrPngr(tpsPaymentItems) && tpsPaymentsAreFullyUpdated(tpsPaymentItems) && emailAddressHasBeenProvided(
@@ -139,8 +141,7 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
     taxType = getTaxTypeString(paymentItem.taxType),
     amount = parseBigDecimalToString(paymentItem.amount),
     // TODO: at this stage the pciPalData should be always there, right? If so then it should not bother with "Unknown"
-    transactionFee =
-      paymentItem.pcipalData.fold("Unknown")(pcipalData => parseBigDecimalToString(pcipalData.Commission)),
+    transactionFee = paymentItem.pcipalData.fold("Unknown")(pcipalData => parseBigDecimalToString(pcipalData.Commission)),
     transactionNumber = paymentItem.pcipalData.fold("Unknown")(pcipalData => pcipalData.ReferenceNumber)
   )
 
@@ -150,7 +151,7 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
 
   private def parseBigDecimalToString(bigDecimal: BigDecimal): String = bigDecimal.setScale(2).toString
 
-  private def getTaxTypeString(taxType: TaxType): String = taxType match
+  private def getTaxTypeString(taxType: TaxType): String = taxType match {
     case TaxTypes.ChildBenefitsRepayments => "Child Benefits repayments"
     case TaxTypes.Sa                      => "Self Assessment"
     case TaxTypes.Sdlt                    => "Stamp Duty Land Tax"
@@ -160,8 +161,11 @@ class EmailService @Inject() (emailConnector: EmailConnector)(using ec: Executio
     case TaxTypes.Paye                    => "PAYE"
     case TaxTypes.Nps                     => "NPS/NIRS"
     case TaxTypes.Vat                     => "VAT"
+    case TaxTypes.VatIossAndOss           => "VAT IOSS and OSS"
     case TaxTypes.Ppt                     => "Plastic Packaging Tax"
     case TaxTypes.MIB                     => taxType.toString
     case TaxTypes.PNGR                    => taxType.toString
+  }
 
   private lazy val logger = Logger(this.getClass)
+}

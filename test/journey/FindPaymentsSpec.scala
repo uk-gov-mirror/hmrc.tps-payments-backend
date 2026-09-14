@@ -299,6 +299,7 @@ class FindPaymentsSpec extends ItSpec {
             case TpsNativeTaxTypes.Paye                    => "Paye"
             case TpsNativeTaxTypes.Nps                     => "Nps"
             case TpsNativeTaxTypes.Vat                     => "Vat"
+            case TpsNativeTaxTypes.VatIossAndOss           => "VatIossAndOss"
             case TpsNativeTaxTypes.Ppt                     => "Ppt"
             case ExternalTaxTypes.MIB                      => "MIB"
             case ExternalTaxTypes.PNGR                     => "PNGR"
@@ -327,13 +328,9 @@ class FindPaymentsSpec extends ItSpec {
               Seq(expectedPayment.copy(createdOn = created, taxType = expectedTaxTypeString))
             )
           )
-
         }
-
       }
-
     }
-
   }
 
   def newJourney(createdOn: Instant, paymentData: Seq[PaymentData]): Journey = {

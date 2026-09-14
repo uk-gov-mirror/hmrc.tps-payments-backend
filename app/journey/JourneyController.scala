@@ -77,8 +77,7 @@ class JourneyController @Inject() (
     Action.async(parse.json[ChargeRefNotificationPcipalRequest]) { implicit request =>
       val notification: ChargeRefNotificationPcipalRequest = request.body
       KibanaLogger.info(
-        message =
-          s"Update request from Pcipal received [paymentStatus: ${notification.Status.toString}][HoD:${notification.HoD.toString}]",
+        message = s"Update request from Pcipal received [paymentStatus: ${notification.Status.toString}][HoD:${notification.HoD.toString}]",
         journey = None,
         pcipalSessionId = Some(notification.PCIPalSessionId),
         paymentItemId = Some(notification.paymentItemId)
@@ -98,8 +97,7 @@ class JourneyController @Inject() (
                                                                           .upsert(newJourney)
                                                                           .map { _ =>
                                                                             KibanaLogger.info(
-                                                                              message =
-                                                                                s"Journey updated with Pcipal data [paymentStatus: ${notification.Status.toString}",
+                                                                              message = s"Journey updated with Pcipal data [paymentStatus: ${notification.Status.toString}",
                                                                               journey = Some(newJourney),
                                                                               pcipalSessionId = Some(notification.PCIPalSessionId),
                                                                               paymentItemId = Some(notification.paymentItemId)

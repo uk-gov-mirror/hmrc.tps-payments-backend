@@ -5,7 +5,7 @@ import sbt.{Def, *}
 object ScoverageSettings {
   def apply(): Seq[Def.Setting[?]] = Seq( // Semicolon-separated list of regexes matching classes to exclude
     ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*(config|views.*);.*(AuthService|BuildInfo|Routes).*",
-    ScoverageKeys.coverageExcludedFiles := Seq(
+    ScoverageKeys.coverageExcludedFiles    := Seq(
       "" +
         "<empty>",
       "Reverse.*",
@@ -19,8 +19,8 @@ object ScoverageSettings {
       ".*ValueClassBinder.*"
     ).mkString(";"),
     ScoverageKeys.coverageMinimumStmtTotal := 90,
-    ScoverageKeys.coverageFailOnMinimum := false,
-    ScoverageKeys.coverageHighlighting := true,
-    Test / parallelExecution := false
+    ScoverageKeys.coverageFailOnMinimum    := false,
+    ScoverageKeys.coverageHighlighting     := true,
+    Test / parallelExecution               := false
   )
 }

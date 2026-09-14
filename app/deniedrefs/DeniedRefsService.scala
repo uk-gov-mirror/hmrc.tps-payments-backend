@@ -92,9 +92,7 @@ class DeniedRefsService @Inject() (
       .toMat(Sink.collection[Reference, List[Reference]])(Keep.right[Done.type, Future[List[Reference]]])
       .mapMaterializedValue(encryptedRefsF =>
         encryptedRefsF
-          .map(encryptedRefs =>
-            DeniedRefs(_id = deniedRefsIdGenerator.nextId(), refs = encryptedRefs, inserted = LocalDateTime.now(clock))
-          )
+          .map(encryptedRefs => DeniedRefs(_id = deniedRefsIdGenerator.nextId(), refs = encryptedRefs, inserted = LocalDateTime.now(clock)))
       )
       .run()
     deniedRefs.onComplete(_ => deleteTempFile(pathToDeniedrefs))

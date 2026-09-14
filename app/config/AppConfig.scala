@@ -32,9 +32,9 @@ class AppConfig @Inject() (
   val paymentNotificationUrl: String = readConfigAsValidUrlString("paymentNotificationUrl")
   val tpsFrontendBaseUrl: String     = readConfigAsValidUrlString("tps-frontend-base-url")
 
-  /** The application loads the configuration from the provided `configPath` and checks if it's a valid URL. If it's not
-    * a valid URL, an exception is thrown. This exception is triggered early during the application's startup to
-    * highlight a malformed configuration, thus increasing the chances of it being rectified promptly.
+  /** The application loads the configuration from the provided `configPath` and checks if it's a valid URL. If it's not a valid URL, an exception is thrown.
+    * This exception is triggered early during the application's startup to highlight a malformed configuration, thus increasing the chances of it being
+    * rectified promptly.
     */
   private def readConfigAsValidUrlString(configPath: String): String =
     val url: String = config.get[String](configPath)

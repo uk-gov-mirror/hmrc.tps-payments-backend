@@ -35,5 +35,4 @@ final case class DeniedRefs(
   def containsRef(reference: Reference): Boolean = refsSet.contains(reference)
 
 object DeniedRefs:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[DeniedRefs] = Json.format[DeniedRefs]

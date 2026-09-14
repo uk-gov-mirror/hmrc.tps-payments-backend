@@ -4,27 +4,28 @@ import sbt.{Def, *}
 import wartremover.Wart
 import wartremover.WartRemover.autoImport.*
 
-object  WartRemoverSettings {
+object WartRemoverSettings {
 
   val wartRemoverSettings: Seq[Def.Setting[Seq[Wart]]] =
     Seq(
       (Compile / compile / wartremoverErrors) ++= {
-        if (StrictBuilding.strictBuilding.value) Warts.allBut(
-          Wart.DefaultArguments,
-          Wart.ImplicitConversion,
-          Wart.ImplicitParameter,
-          Wart.Nothing,
-          Wart.Overloading,
-          Wart.SizeIs,
-          Wart.Equals,
-          Wart.SortedMaxMinOption,
-          Wart.Throw,
-          Wart.ToString,
-          Wart.PlatformDefault,
-          Wart.Product,
-          Wart.JavaSerializable,
-          Wart.Serializable
-        )
+        if (StrictBuilding.strictBuilding.value)
+          Warts.allBut(
+            Wart.DefaultArguments,
+            Wart.ImplicitConversion,
+            Wart.ImplicitParameter,
+            Wart.Nothing,
+            Wart.Overloading,
+            Wart.SizeIs,
+            Wart.Equals,
+            Wart.SortedMaxMinOption,
+            Wart.Throw,
+            Wart.ToString,
+            Wart.PlatformDefault,
+            Wart.Product,
+            Wart.JavaSerializable,
+            Wart.Serializable
+          )
         else Nil
       },
       Test / compile / wartremoverErrors --= Seq(

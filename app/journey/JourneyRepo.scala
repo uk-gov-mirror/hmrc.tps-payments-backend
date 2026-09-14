@@ -126,8 +126,8 @@ object JourneyRepo {
     pcipalSessionLaunchResponse: Option[PcipalSessionLaunchResponse] = None
   )
 
-  /** This format stores date time in mongo specific way. For example: {{{"\$date":{"\$numberLong":"2837003631880"}}}}
-    * Don't change it. Use https://www.epochconverter.com/ to quickly decode Long to Instant.
+  /** This format stores date time in mongo specific way. For example: {{{"\$date":{"\$numberLong":"2837003631880"}}}} Don't change it. Use
+    * https://www.epochconverter.com/ to quickly decode Long to Instant.
     */
   given formatMongo: OFormat[Journey] = {
     // before OPS-9461 "created" was stored as string and in java.time.LocalDateTime format

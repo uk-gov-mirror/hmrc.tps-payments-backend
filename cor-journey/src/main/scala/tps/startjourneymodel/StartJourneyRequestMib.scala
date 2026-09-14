@@ -40,5 +40,4 @@ final case class StartJourneyRequestMib(
 ) derives CanEqual
 
 object StartJourneyRequestMib:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[StartJourneyRequestMib] = Json.format[StartJourneyRequestMib]

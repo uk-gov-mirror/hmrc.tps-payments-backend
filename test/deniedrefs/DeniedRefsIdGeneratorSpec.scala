@@ -18,7 +18,7 @@ package deniedrefs
 
 import testsupport.UnitSpec
 
-class DeniedRefsIdGeneratorSpec extends UnitSpec:
+class DeniedRefsIdGeneratorSpec extends UnitSpec {
 
   "generates unique values" in {
     val generator = new DeniedRefsIdGenerator()
@@ -26,3 +26,4 @@ class DeniedRefsIdGeneratorSpec extends UnitSpec:
     val ids       = (0 until n).map(_ => generator.nextId()).toSet
     ids.size shouldBe n
   }
+}

@@ -56,12 +56,7 @@ import scala.concurrent.ExecutionContext
 /** This is common spec for every test case which brings all of useful routines we want to use in our scenarios.
   */
 
-trait ItSpec
-    extends AnyFreeSpecLike
-    with RichMatchers
-    with HttpClientV2Support
-    with WireMockSupport
-    with GuiceOneServerPerSuite {
+trait ItSpec extends AnyFreeSpecLike with RichMatchers with HttpClientV2Support with WireMockSupport with GuiceOneServerPerSuite {
 
   val testPort = 19001
 
@@ -78,8 +73,7 @@ trait ItSpec
     override def configure(): Unit =
       bind(classOf[Clock]).toInstance(clock)
 
-    /** This one is randomised every time new test application is spawned. Thanks to that there will be no collisions in
-      * database when 2 tests insert journey.
+    /** This one is randomised every time new test application is spawned. Thanks to that there will be no collisions in database when 2 tests insert journey.
       */
     @Provides
     @Singleton

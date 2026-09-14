@@ -27,7 +27,7 @@ import scala.collection.immutable
 
 class StatusTypesSpec extends UnitSpec {
 
-  "de/serialize TaxTypes" in {
+  "de/serialize StatusTypes" in {
 
     val statusTypes: immutable.Seq[(String, StatusType)] = List[(String, StatusType)](
       "validated" -> validated,

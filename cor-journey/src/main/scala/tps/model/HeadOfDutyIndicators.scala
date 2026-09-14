@@ -71,6 +71,12 @@ object HeadOfDutyIndicators extends Enum[HeadOfDutyIndicator] {
     */
   case object C extends HeadOfDutyIndicator
 
+  /** Hod for VAT IOSS/OSS, D = IOSS, E = OSS, F = Penalty/charge reference
+    */
+  case object D extends HeadOfDutyIndicator
+  case object E extends HeadOfDutyIndicator
+  case object F extends HeadOfDutyIndicator
+
   def values: immutable.IndexedSeq[HeadOfDutyIndicator] = findValues
 
   def forCode(code: String): HeadOfDutyIndicator = values.find(_.toString == code) match {

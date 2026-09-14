@@ -24,5 +24,4 @@ final case class ModsPaymentCallBackRequest(
 ) derives CanEqual
 
 object ModsPaymentCallBackRequest:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[ModsPaymentCallBackRequest] = Json.format[ModsPaymentCallBackRequest]

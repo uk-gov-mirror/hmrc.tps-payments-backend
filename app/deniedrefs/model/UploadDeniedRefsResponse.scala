@@ -27,5 +27,4 @@ final case class UploadDeniedRefsResponse(
 )
 
 object UploadDeniedRefsResponse:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[UploadDeniedRefsResponse] = Json.format[UploadDeniedRefsResponse]

@@ -24,5 +24,4 @@ final case class StartJourneyResponse(
 ) derives CanEqual
 
 object StartJourneyResponse:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[StartJourneyResponse] = Json.format[StartJourneyResponse]

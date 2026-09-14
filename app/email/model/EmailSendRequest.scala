@@ -27,5 +27,4 @@ final case class EmailSendRequest(
 )
 
 object EmailSendRequest:
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
   given OFormat[EmailSendRequest] = Json.format[EmailSendRequest]

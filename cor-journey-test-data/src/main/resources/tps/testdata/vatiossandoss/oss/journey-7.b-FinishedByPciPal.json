@@ -1,0 +1,65 @@
+{
+  "_id": "64886ed616fe8b501cbf0088",
+  "journeyState": {
+    "FinishedByPciPal": {}
+  },
+  "pid": "1234567",
+  "created": "2059-11-25T16:33:51.880Z",
+  "payments": [
+    {
+      "paymentItemId": "64897aee16fe8b501cbf008a",
+      "amount": 108.08,
+      "headOfDutyIndicator": "E",
+      "updated": "2059-11-25T16:33:51.880Z",
+      "customerName": "customerName",
+      "chargeReference": "NI968501144Q259",
+      "paymentSpecificData": {
+        "iossAndOssPaymentType": "Oss",
+        "vatOssVrn": "968501144",
+        "vatOssPeriod": {
+          "quarter": "AprilToJune",
+          "year": 2059
+        }
+      },
+      "taxType": "VatIossAndOss",
+      "email": "test@email.com",
+      "receiptInWelsh": false,
+      "searchTag": "968501144"
+    }
+  ],
+  "navigation": {
+    "back": "http://localhost:9124/tps-payments/back-from-pcipal",
+    "reset": "http://localhost:9124/tps-payments/full/reset",
+    "finish": "http://localhost:9124/tps-payments/finish",
+    "callback": "http://notification.host/payments/notifications/send-card-payments"
+  },
+  "pcipalSessionLaunchRequest": {
+    "FlowId": 1055,
+    "InitialValues": {
+      "ClientID_1": "OSSM",
+      "PaymentItemID_1": "64897aee16fe8b501cbf008a",
+      "ChargeReference_1": "NI968501144Q259",
+      "TaxRegimeDisplay_1": "VAT IOSS and OSS",
+      "Reference_1": "3123456701",
+      "PID_1": "1234567",
+      "AccountOfficeID_1": "G1",
+      "HODIdentifier_1": "E",
+      "UTRReference_1": "NI968501144Q259",
+      "Name1_1": "customerName",
+      "Amount_1": "108.08",
+      "UTRBlacklistFlag": "N",
+      "postcodeFlag": "Y",
+      "taxRegime": "gen",
+      "TotalTaxAmountToPay": "108.08",
+      "callbackUrl": "http://notification.host/payments/notifications/send-card-payments",
+      "finishURL": "http://localhost:9124/tps-payments/finish",
+      "backURL": "http://localhost:9124/tps-payments/back-from-pcipal",
+      "resetURL": "http://localhost:9124/tps-payments/full/reset",
+      "LanguageFlag": "E"
+    }
+  },
+  "pcipalSessionLaunchResponse": {
+    "Id": "dummy-session-id-765955124",
+    "LinkId": "3097"
+  }
+}

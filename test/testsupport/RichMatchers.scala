@@ -38,8 +38,7 @@ trait RichMatchers
     with Eventually
     with IntegrationPatience:
 
-  /** Returns recorded by WireMock request. Asserts there was only one request made to wire mock. Use it in Connector
-    * unit tests.
+  /** Returns recorded by WireMock request. Asserts there was only one request made to wire mock. Use it in Connector unit tests.
     */
   def getRecordedRequest: LoggedRequest =
     val allRecordedRequests: List[LoggedRequest] = WireMock.getAllServeEvents.asScala.map(_.getRequest).toList

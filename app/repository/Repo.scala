@@ -34,7 +34,7 @@ abstract class Repo[ID <: Id, A <: HasId[ID]](
   collectionName: String,
   mongoComponent: MongoComponent,
   indexes:        Seq[IndexModel],
-  extraCodecs:    Seq[Codec[_]],
+  extraCodecs:    Seq[Codec[?]],
   replaceIndexes: Boolean = false
 )(implicit manifest: ClassTag[A], domainFormat: OFormat[A], executionContext: ExecutionContext)
     extends PlayMongoRepository[A](

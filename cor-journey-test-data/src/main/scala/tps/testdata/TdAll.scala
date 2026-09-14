@@ -18,7 +18,7 @@ package tps.testdata
 
 import tps.journey.model.Journey
 import tps.testdata.tdjourney.externaltaxtypes.{TdJourneyInStatesExternalTaxTypes, TdJourneyInStatesExternalTaxTypesOld, TdJourneyMib, TdJourneyMibOld, TdJourneyPngr, TdJourneyPngrOld}
-import tps.testdata.tdjourney.{TdJourneyChildBenefit, TdJourneyCotax, TdJourneyInStates, TdJourneyNps, TdJourneyNtc, TdJourneyPaye, TdJourneyPpt, TdJourneySa, TdJourneySafe, TdJourneySdlt, TdJourneyVat, TdMultiPaymentJourney}
+import tps.testdata.tdjourney.{TdJourneyChildBenefit, TdJourneyCotax, TdJourneyInStates, TdJourneyNps, TdJourneyNtc, TdJourneyPaye, TdJourneyPpt, TdJourneySa, TdJourneySafe, TdJourneySdlt, TdJourneyVat, TdJourneyVatIossAndOss, TdMultiPaymentJourney}
 import tps.testdata.util.JourneyJson
 
 object TdAll extends TdAll
@@ -40,6 +40,7 @@ trait TdAll
     with TdJourneyPaye
     with TdJourneyNps
     with TdJourneyVat
+    with TdJourneyVatIossAndOss
     with TdJourneyPpt
     with TdMultiPaymentJourney:
 
@@ -62,7 +63,10 @@ trait TdAll
     TdJourneySa,
     TdJourneySafe,
     TdJourneySdlt,
-    TdJourneyVat
+    TdJourneyVat,
+    TdJourneyVatIoss,
+    TdJourneyVatOss,
+    TdJourneyIossOssPenalty
   )
 
   /** only journeys with ExternalTaxType

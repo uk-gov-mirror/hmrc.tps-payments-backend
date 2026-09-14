@@ -20,8 +20,7 @@ import tps.journey.model.{JourneyId, JourneyIdGenerator}
 
 import java.util.concurrent.atomic.AtomicReference
 
-/** This is still a random journeyId generator which allows to see what is going to be the next journey Id. Useful in
-  * tests.
+/** This is still a random journeyId generator which allows to see what is going to be the next journey Id. Useful in tests.
   */
 class TestJourneyIdGenerator extends JourneyIdGenerator:
 

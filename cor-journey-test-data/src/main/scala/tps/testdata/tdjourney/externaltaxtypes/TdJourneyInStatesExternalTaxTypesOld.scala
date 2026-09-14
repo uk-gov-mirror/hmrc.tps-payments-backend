@@ -25,7 +25,7 @@ import tps.testdata.util.JourneyJson
 import java.time.Instant
 
 // TODO: remove according to OPS-11079
-trait TdJourneyInStatesExternalTaxTypesOld:
+trait TdJourneyInStatesExternalTaxTypesOld {
   def taxType: ExternalTaxType
 
   def journeyId: JourneyId
@@ -106,3 +106,4 @@ trait TdJourneyInStatesExternalTaxTypesOld:
     (journeyBackByPciPal, journeyBackByPciPalJson),
     (journeyReceivedNotification, journeyReceivedNotificationJson)
   )
+}

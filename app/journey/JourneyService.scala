@@ -21,6 +21,7 @@ import journey.payments.{FindPaymentsRequest, FindPaymentsResponse}
 import play.api.Logger
 import tps.journey.model.{Journey, JourneyId}
 import tps.model.*
+import tps.model.vatiossandoss.{IossOssChargeReference, IossRegistrationNumber, OssVrn}
 import tps.pcipalmodel.{ChargeRefNotificationPcipalRequest, PcipalInitialValues, PcipalSessionId, StatusTypes}
 import util.Crypto
 
@@ -160,8 +161,7 @@ class JourneyService @Inject() (crypto: Crypto, journeyRepo: JourneyRepo, clock:
       payments = journey.payments.map(encryptOrDecryptSensitivePaymentItemFields(_)(encryptOrDecrypt)),
       pcipalSessionLaunchRequest = journey.pcipalSessionLaunchRequest.map { pcipalSessionLaunchRequest =>
         pcipalSessionLaunchRequest.copy(
-          InitialValues =
-            pcipalSessionLaunchRequest.InitialValues.map(encryptOrDecryptPcipalInitialValue(_)(encryptOrDecrypt))
+          InitialValues = pcipalSessionLaunchRequest.InitialValues.map(encryptOrDecryptPcipalInitialValue(_)(encryptOrDecrypt))
         )
       }
     )
@@ -187,19 +187,26 @@ class JourneyService @Inject() (crypto: Crypto, journeyRepo: JourneyRepo, clock:
   private def encryptOrDecryptPaymentSpecificData(
     paymentSpecificData: PaymentSpecificData
   )(encryptOrDecrypt: String => String): PaymentSpecificData =
-    paymentSpecificData match
-      case psd: PngrSpecificData         => psd.copy(chargeReference = encryptOrDecrypt(psd.chargeReference))
-      case psd: MibSpecificData          => psd.copy(chargeReference = encryptOrDecrypt(psd.chargeReference))
-      case psd: ChildBenefitSpecificData => psd.copy(encryptOrDecrypt(psd.childBenefitYReference))
-      case psd: SaSpecificData           => psd.copy(encryptOrDecrypt(psd.saReference))
-      case psd: SdltSpecificData         => psd.copy(encryptOrDecrypt(psd.sdltReference))
-      case psd: SafeSpecificData         => psd.copy(encryptOrDecrypt(psd.safeReference))
-      case psd: CotaxSpecificData        => psd.copy(encryptOrDecrypt(psd.cotaxReference))
-      case psd: NtcSpecificData          => psd.copy(encryptOrDecrypt(psd.ntcReference))
-      case psd: PayeSpecificData         => psd.copy(encryptOrDecrypt(psd.payeReference))
-      case psd: NpsSpecificData          => psd.copy(npsReference = encryptOrDecrypt(psd.npsReference))
-      case psd: VatSpecificData          => psd.copy(vatReference = encryptOrDecrypt(psd.vatReference))
-      case psd: PptSpecificData          => psd.copy(pptReference = encryptOrDecrypt(psd.pptReference))
+    paymentSpecificData match {
+      case psd: PngrSpecificData          => psd.copy(chargeReference = encryptOrDecrypt(psd.chargeReference))
+      case psd: MibSpecificData           => psd.copy(chargeReference = encryptOrDecrypt(psd.chargeReference))
+      case psd: ChildBenefitSpecificData  => psd.copy(encryptOrDecrypt(psd.childBenefitYReference))
+      case psd: SaSpecificData            => psd.copy(encryptOrDecrypt(psd.saReference))
+      case psd: SdltSpecificData          => psd.copy(encryptOrDecrypt(psd.sdltReference))
+      case psd: SafeSpecificData          => psd.copy(encryptOrDecrypt(psd.safeReference))
+      case psd: CotaxSpecificData         => psd.copy(encryptOrDecrypt(psd.cotaxReference))
+      case psd: NtcSpecificData           => psd.copy(encryptOrDecrypt(psd.ntcReference))
+      case psd: PayeSpecificData          => psd.copy(encryptOrDecrypt(psd.payeReference))
+      case psd: NpsSpecificData           => psd.copy(npsReference = encryptOrDecrypt(psd.npsReference))
+      case psd: VatSpecificData           => psd.copy(vatReference = encryptOrDecrypt(psd.vatReference))
+      case psd: VatIossAndOssSpecificData =>
+        psd.copy(
+          vatIossRegistrationNumber = psd.vatIossRegistrationNumber.map(r => IossRegistrationNumber(encryptOrDecrypt(r.value))),
+          vatOssVrn = psd.vatOssVrn.map(r => OssVrn(encryptOrDecrypt(r.value))),
+          vatIossOssPenaltyReference = psd.vatIossOssPenaltyReference.map(r => IossOssChargeReference(encryptOrDecrypt(r.value)))
+        )
+      case psd: PptSpecificData           => psd.copy(pptReference = encryptOrDecrypt(psd.pptReference))
+    }
 
   private def encryptOrDecryptPcipalData(
     pcipalData: ChargeRefNotificationPcipalRequest

@@ -1,0 +1,15 @@
+{
+  "_id": "64886ed616fe8b501cbf0088",
+  "journeyState": {
+    "Started": {}
+  },
+  "pid": "1234567",
+  "created": "2059-11-25T16:33:51.880Z",
+  "payments": [],
+  "navigation": {
+    "back": "http://localhost:9124/tps-payments/back-from-pcipal",
+    "reset": "http://localhost:9124/tps-payments/full/reset",
+    "finish": "http://localhost:9124/tps-payments/finish",
+    "callback": "http://notification.host/payments/notifications/send-card-payments"
+  }
+}
